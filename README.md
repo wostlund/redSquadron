@@ -1,1 +1,1 @@
-# redSquadron
+# redSquadron by Will Ostlund, Lorenz Vargas and Richard Wang
