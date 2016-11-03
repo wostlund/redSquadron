@@ -1,0 +1,27 @@
+{% extends "super.html" %}
+{% block title %}
+    <title>Login</title>
+{% endblock %}
+{% block body %}
+    <form action="/" method="POST">
+        {% if {{error}} %}
+            <div id="message">
+                Username or Passwword incorrect
+            </div>
+        {% endif %}
+        <div id="form1">
+            Username <input type="text" name="user">
+        </div>
+        <div id="form1">
+            Password <input type="text" name="password">
+        </div>
+        <div id="buttons">
+            <button id="button" type="submit" value="log">
+                Login
+            </button>
+            <button id="button" type="submit" value="reg">
+                Register
+            </button>
+        </div>
+    </form>
+{% endblock %}
