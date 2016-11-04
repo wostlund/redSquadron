@@ -8,9 +8,22 @@ app = Flask(__name__)
 def login():
     if 'username' in session:
         return redirect(url_for('welcome'))
-    return render_template('login.html')
+    return render_template('login.html', error = False)
 
 @app.route("/register")
+
+@app.route("/welcome/")
+def welcome():
+    if 'username' in session:
+        return render_template('welcome.html', name = session['username'])
+    else:
+        return "Not logged in"
+
+@app.route("/logout/")
+def logout():
+    if 'username' in session:
+        session.pop('username', None)
+    return redirect(url_for('login'))
 
 @app.route("/settings")
 
