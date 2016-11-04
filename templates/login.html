@@ -3,9 +3,9 @@
     <title>Login</title>
 {% endblock %}
 {% block body %}
-    {% if {{error}} %}
+    {% if error %}
         <div id="message">
-            Username or Passwword incorrect
+            Username or Password incorrect
         </div>
     {% endif %}
     <form id="log" action="/" method="POST">
