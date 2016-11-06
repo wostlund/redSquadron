@@ -12,7 +12,9 @@ def login():
         return redirect(url_for('welcome'))
     return render_template('login.html', error = False)
 
-#@app.route("/register")
+@app.route("/register")
+def register():
+    return render_template('register.html')
 
 @app.route("/welcome/")
 def welcome():
@@ -27,7 +29,10 @@ def logout():
         session.pop('username', None)
     return redirect(url_for('login'))
 
-#@app.route("/settings")
+@app.route("/settings")
+def settings():
+    if 'username' in session: #check if user can actually use settings
+        return render_template('settings.html') #add more arguments from Lorenz's db util files
 
 #@app.route("/add")
 
