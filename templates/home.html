@@ -3,15 +3,20 @@
     Welcome, {{username}}!
 {% endblock %}
 {% block body %}
-    <!-- Stuff to add:
-        Due by the end of saturday
-            -Menu
-            -Section dedicated to recommended posts
-            -Preview Story
-                -Post and comments
-            -Section dedicated to joined posts
-            -Workspace for story
-        Due by the end of sunday
-            -Make super pretty
-    -->
+<h1 id="smallTitle">Suggested Stories</h1>
+    <form action="/story" name="story" id = "menus">
+        {% for i in info1%}
+                <button type = "submit" id = "menu" form ="story" name="name" value={{info[i][2]}}>         
+                    {{info[i][0]}} by {{info[i][1]}}
+                </button>
+        {% endfor %}
+    </form>
+<h1 id="smallTitle">Your Stories</h1>
+    <form action="/story" name="story2" id = "menus">
+        {% for i in info2%}
+                <button type = "submit" id = "menu" form ="story2" name="name" value={{info[i][2]}}>         
+                    {{info[i][0]}} by {{info[i][1]}}
+                </button>
+        {% endfor %}
+    </form>
 {% endblock %}
