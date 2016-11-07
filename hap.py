@@ -8,6 +8,7 @@ app.secret_key = '\x90\xfb\x0f6\x1dY\xa5i\x93+m\x83\xd8\xd9\xad\x91}\xef\x95]_\x
 db = sqlite3.connect(data/data.db)
 
 @app.route("/")
+@app.route("/login/")
 def login():
     if 'username' in session:
         return redirect(url_for('welcome'))
@@ -18,7 +19,7 @@ def registration():
     if request.method=="POST":
         u=request.form["username"]
         p=hashIt(request.form["pass"])
-        result = check_login(u, p)
+        result = check_reg(u, p)
         if result  == "Username taken":
             return render_template("login.html",message="Username taken. Be more original")
         elif result == "Invalid username":
@@ -27,7 +28,7 @@ def registration():
             add_account(u, p)
             return render_template("login.html",message="Success! Your account has been created.")
 
-def check_login(username, password):
+def check_reg(username, password):
     if not valid_username(username):
         return "Invalid username"
     curs = db.cursor()
@@ -66,10 +67,9 @@ def settings():
     if 'username' in session: #check if user can actually use settings
         return render_template('settings.html') #add more arguments from Lorenz's db util files
 
-#@app.route("/contribute")
-def add():
-    if 'username' in session:
-        return render_template('add.html')
+@app.route("/contribute", methods=["POST"])
+def add_contribution():
+    
 
 if __name__ == "__main__":
     app.debug = True
