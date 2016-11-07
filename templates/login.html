@@ -5,7 +5,7 @@
 {% block body %}
     {% if error %}
         <div id="message">
-            Username or Password incorrect
+            {{message}}
         </div>
     {% endif %}
     <form id="log" action="/authenticate" method="POST">
