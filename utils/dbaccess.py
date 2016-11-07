@@ -29,6 +29,13 @@ def add_account(username, password):
 
 def check_log(username, password):
     with sqlite3.connect('data.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT name from user where name='{p_name}'".format(p_name=username))
+        result = cursor.fetchall()
+        cursor.close()
+        if len(result) < 1:
+            return "Bad Login"
+    with sqlite3.connect('data.db') as conn:
         curs = conn.cursor()
         user = curs.execute(
             "SELECT name,password from user where name = '{p_name}'".format(
@@ -42,8 +49,7 @@ def check_log(username, password):
                 return "Bad Login"
             if i[1] != hashlib.sha224(password).hexdigest():
                 return "Bad Login"
-        else:
-            return "Good Login" #shouldn't be used though
+        return "Good Login" #shouldn't be used though
 
 #def add_account(username, password):
 #    with sqlite3.connect('data.db') as conn:
