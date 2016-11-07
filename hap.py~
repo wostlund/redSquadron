@@ -26,7 +26,7 @@ def authenticate():
             if result == "Bad Login":
                 return render_template("login.html",message="Username or Password invalid. Try again.")
             else:
-                session['user'] = request.form['user']
+                session['username'] = request.form['user']
                 return redirect(url_for('welcome'))
         elif button_val == "reg":
             print ('before check reg')
@@ -47,7 +47,7 @@ def authenticate():
 def welcome():
     if 'username' in session:
         name = session['username']
-        return render_template('home.html', info1 = show_unjoined(name), info2 = show_joined(name))
+        return render_template('home.html', info1 = dbaccess.show_unjoined(name), info2 = dbaccess.show_joined(name))
     else:
         return "Not logged in. Error" #possible change this for redirect to login
 
