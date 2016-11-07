@@ -3,11 +3,9 @@
     <title>Login</title>
 {% endblock %}
 {% block body %}
-    {% if error %}
         <div id="message">
             {{message}}
         </div>
-    {% endif %}
     <form id="log" action="/authenticate" method="POST">
         <div id="form1">
             Username <input type="text" name="user">
