@@ -10,9 +10,22 @@ def login():
         return redirect(url_for('welcome'))
     return render_template('login.html', error = False)
 
-@app.route("/register")
-def register():
-    return render_template('register.html')
+@app.route("/register/",methods=["POST"])
+def registration():
+    if request.method=="POST":
+        u=request.form["username"]
+        p=hashIt(request.form["pass"])
+        result = check_login(u, p)
+        if result  == "Username taken":
+            return render_template("login.html",message="Username taken. Be more original")
+        elif result == "Invalid username":
+            return render_template("login.html",message="Invalid username. Please change it.")
+        else:
+            add_account(u, p)
+            return render_template("login.html",message="Success! Your account has been created.")
+    
+#def register():
+#    return render_template('register.html')
 
 @app.route("/welcome/")
 def welcome():
