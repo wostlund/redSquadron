@@ -12,8 +12,9 @@ def check_reg(username, password):
     return "Success"
 
 def valid_username(username):
-    if not username:
+    if username.isspace():
         return False
+    return True
 
 def add_account(username, password):
     curs = db.cursor()
@@ -39,6 +40,7 @@ def show_unjoined(user):
         info[i][0] = i["title"]
         info[i][1] = i["uid"]
         info[i][2] = i["body"]
+    return info
 
 def show_joined(user):
     info[0][0]=""
@@ -48,6 +50,7 @@ def show_joined(user):
         info[i][0] = i["title"]
         info[i][1] = i["uid"]
         info[i][2] = i["body"]
+    return info
     
 
 def add_story(title, body, contributor):
