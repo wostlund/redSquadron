@@ -72,7 +72,10 @@ def add_contribution:
     title = request.form["title"]
     contributor = request.form["contributor"]
     text = request.form["contribution"]
-    dbaccess.add_contribution(title, contributor, text)
+    if not dbaccess.add_contribution(title, contributor, text):
+        #this person has already contributed, not allowed to contribute to story
+
+#latest contribution
 
 if __name__ == "__main__":
     app.debug = True
