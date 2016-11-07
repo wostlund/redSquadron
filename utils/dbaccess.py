@@ -1,12 +1,13 @@
 import sqlite3, time, hashlib
 
-db = sqlite3.connect("data/data.db")
 
 def check_reg(username, password):
+    db = sqlite3.connect("data/data.db")
     if not valid_username(username):
         return "Invalid username"
     curs = db.cursor()
-    rows = curs.execute("SELECT name from user where name={p_name}".format(p_name=username))
+    q = "SELECT name from user where name={p_name}".format(p_name=username)
+    rows = curs.execute(q)
     if rows:
         return "Username taken"
     return "Success"
@@ -17,6 +18,7 @@ def valid_username(username):
     return True
 
 def add_account(username, password):
+    db = sqlite3.connect("data/data.db")
     curs = db.cursor()
     curs.execute(
         "INSERT INTO users (name, password) "
@@ -25,6 +27,7 @@ def add_account(username, password):
     db.commit()
 
 def check_log(username, password):
+    db = sqlite3.connect("data/data.db")
     curs = db.cursor()
     user = curs.execute("SELECT name,password from user where name = {p_name} and password = {p_password}".format(p_name=username, p_password=hashlib.sha224(password).hexdigest()))
     if not user:
@@ -33,6 +36,7 @@ def check_log(username, password):
         return "Good Login" #shouldn't be used though
 
 def show_unjoined(user):
+    db = sqlite3.connect("data/data.db")
     info[0][0]=""
     curs = db.cursor()
     row = curs.execute("SELECT title, body, uid from user where contributor!={p_name}".form(p_name=user))
@@ -43,6 +47,7 @@ def show_unjoined(user):
     return info
 
 def show_joined(user):
+    db = sqlite3.connect("data/data.db")
     info[0][0]=""
     curs = db.cursor()
     row = curs.execute("SELECT title, body, uid from user where contributor={p_name}".form(p_name=user))
@@ -54,6 +59,7 @@ def show_joined(user):
     
 
 def add_story(title, body, contributor):
+    db = sqlite3.connect("data/data.db")
     # 1. Get the uid of the contributor
     curs = db.cursor()
     row = curs.execute("SELECT uid from user where name={p_name}".format(p_name=contributor))
@@ -75,6 +81,7 @@ def add_story(title, body, contributor):
         return True
 
 def add_contribution(title, contributor, text):
+    db = sqlite3.connect("data/data.db")
     curs = db.cursor()
     row = curs.execute("SELECT sid, contributors from story where title={p_title}".format(p_title=title))
     sid = ""
