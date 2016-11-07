@@ -30,9 +30,25 @@ def check_log(username, password):
         return "Bad Login"
     else:
         return "Good Login" #shouldn't be used though
-    
-    
 
+def show_unjoined(user):
+    info[0][0]=""
+    curs = db.cursor()
+    row = curs.execute("SELECT title, body, uid from user where contributor!={p_name}".form(p_name=user))
+    for i in row:
+        info[i][0] = i["title"]
+        info[i][1] = i["uid"]
+        info[i][2] = i["body"]
+
+def show_joined(user):
+    info[0][0]=""
+    curs = db.cursor()
+    row = curs.execute("SELECT title, body, uid from user where contributor={p_name}".form(p_name=user))
+    for i in row:
+        info[i][0] = i["title"]
+        info[i][1] = i["uid"]
+        info[i][2] = i["body"]
+    
 
 def add_story(title, body, contributor):
     # 1. Get the uid of the contributor
