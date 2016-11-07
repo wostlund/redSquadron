@@ -16,9 +16,11 @@ def login():
 @app.route("/authenticate",methods=["POST"])
 def authenticate():
     if request.method == "POST":
-        u=request.form["username"]
-        p=hashIt(request.form["pass"])
-        button_val = request.form["value"]
+        print request.form
+        u=request.form["user"]
+        p=request.form["password"]
+        button_val = request.form["submit"]
+        print button_val
         if button_val == "log":
             result = dbaccess.check_log(u, p)
             if result == "Bad Login":
