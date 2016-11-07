@@ -1,11 +1,8 @@
-import sqlite3
-import time
-
+import sqlite3, time, hashlib
 
 db = sqlite3.connect("data/data.db")
 
 def check_reg(username, password):
-
     if not valid_username(username):
         return "Invalid username"
     curs = db.cursor()
@@ -23,8 +20,19 @@ def add_account(username, password):
     curs.execute(
         "INSERT INTO users (name, password) "
         "VALUES ({p_user}, {p_password})".format(
-            p_user=username, p_password=password))
+            p_user=username, p_password=hashlib.sha224(password).hexdigest()))
     db.commit()
+
+def check_log(username, password):
+    curs = db.cursor()
+    user = curs.execute("SELECT name,password from user where name = {p_name} and password = {p_password}".format(p_name=username, p_password=hashlib.sha224(password).hexdigest()))
+    if not user:
+        return "Bad Login"
+    else:
+        return "Good Login" #shouldn't be used though
+    
+    
+
 
 def add_story(title, body, contributor):
     # 1. Get the uid of the contributor
