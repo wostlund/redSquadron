@@ -47,7 +47,7 @@ def authenticate():
 def welcome():
     if 'username' in session:
         name = session['username']
-        return render_template('home.html', info1 = show_unjoined(name), info2 = show_joined(name))
+        return render_template('home.html', info1 = dbaccess.show_unjoined(name), info2 = dbaccess.show_joined(name))
     else:
         return "Not logged in. Error" #possible change this for redirect to login
 
