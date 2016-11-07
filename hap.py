@@ -16,9 +16,11 @@ def login():
 @app.route("/authenticate",methods=["POST"])
 def authenticate():
     if request.method == "POST":
-        u=request.form["username"]
-        p=hashIt(request.form["pass"])
-        button_val = request.form["value"]
+        print request.form
+        u=request.form["user"]
+        p=request.form["password"]
+        button_val = request.form["submit"]
+        print button_val
         if button_val == "log":
             result = dbaccess.check_log(u, p)
             if result == "Bad Login":
@@ -41,7 +43,8 @@ def authenticate():
 @app.route("/welcome/")
 def welcome():
     if 'username' in session:
-        return render_template('home.html', name = session['username'])
+        name = session['username']
+        return render_template('home.html', info1 = show_unjoined(name), info2 = show_joined(name))
     else:
         return "Not logged in. Error" #possible change this for redirect to login
 
