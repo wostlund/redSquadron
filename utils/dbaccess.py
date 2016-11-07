@@ -35,8 +35,6 @@ def check_log(username, password):
                 p_name=username, p_password=hashlib.sha224(password).hexdigest()))
         if not user:
             return "Bad Login"
-        if user[1] != hashlib.sha224(password).hexdigest():
-            return "Bad Login"
         else:
             return "Good Login" #shouldn't be used though
 
