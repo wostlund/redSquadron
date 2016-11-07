@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<HTML>
+    <head>
+        <link rel="stylesheet" type="text/css" href="styling/fancy.css">
+        <title>Welcome, {{username}}!</title>
+    </head>
+    <body>
+        <div id="container">
+            <br>
+<div id="smallTitle">Suggested Stories</div>
+    <form action="/story" name="story" id = "menus" method="POST">
+                <button type = "submit" id = "hide" form ="story" name="name" value={{info[i][2]}}>         
+                    <div id="menu">North by Northwest</div>
+                </button>
+        <button type = "submit" id = "hide" form ="story" name="name" value={{info[i][2]}}>         
+                    <div id="menu">North by Northwest</div>
+                </button>
+        <button type = "submit" id = "hide" form ="story" name="name" value={{info[i][2]}}>         
+                    <div id="menu">North by Northwest</div>
+                </button>
+        <button type = "submit" id = "hide" form ="story" name="name" value={{info[i][2]}}>         
+                    <div id="menu">North by Northwest</div>
+                </button>
+    </form>
+            <br>
+<div id="smallTitle">Your Stories</div>
+    <form action="/story" name="story2" id = "menus" method="POST">
+                <button type = "submit" id = "hide" form ="story2" name="name" value={{info[i][2]}}>         
+                    North by Northwest
+                </button>
+    </form>
+        </div>
+    </body>

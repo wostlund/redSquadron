@@ -3,19 +3,21 @@
     Welcome, {{username}}!
 {% endblock %}
 {% block body %}
-<h1 id="smallTitle">Suggested Stories</h1>
-    <form action="/story" name="story" id = "menus">
+<br>
+<div id="smallTitle">Suggested Stories</div>
+    <form action="/story" name="story" id = "menus" method="POST">
         {% for i in info1%}
-                <button type = "submit" id = "menu" form ="story" name="name" value={{info[i][2]}}>         
-                    {{info[i][0]}} by {{info[i][1]}}
+                <button type = "submit" id = "hide" form ="story" name="name" value={{info[i][2]}}>
+                    <div id="menu">info[i][0]}} by {{info[i][1]}}</div>
                 </button>
         {% endfor %}
     </form>
-<h1 id="smallTitle">Your Stories</h1>
-    <form action="/story" name="story2" id = "menus">
+<br>
+<div id="smallTitle">Your Stories</div>
+    <form action="/story" name="story2" id = "menus" method="POST">
         {% for i in info2%}
-                <button type = "submit" id = "menu" form ="story2" name="name" value={{info[i][2]}}>         
-                    {{info[i][0]}} by {{info[i][1]}}
+                <button type = "submit" id = "hide" form ="story2" name="name" value={{info[i][2]}}>         
+                    <div id="menu">{{info[i][0]}} by {{info[i][1]}}</div>
                 </button>
         {% endfor %}
     </form>
