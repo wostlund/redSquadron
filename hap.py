@@ -92,7 +92,7 @@ def add_story():
 @app.route('/addContribution', methods = ["POST"])
 def addcontribution():
     if 'username' in session: #check if user can actually use settings
-        return render_template('story.html', info = dbaccess.show_unjoined(session["username"])) #add more arguments from Lorenz's db util files
+        return render_template('list.html', info = dbaccess.show_unjoined(session["username"])) #add more arguments from Lorenz's db util files
     else:
         return "Not logged in. Error" #possible change this for redirect to login
 
