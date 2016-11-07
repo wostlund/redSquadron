@@ -14,7 +14,7 @@ def login():
     return render_template('login.html', error = False)
 
 @app.route("/authenticate",methods=["POST"])
-def registration():
+def authenticate():
     if request.method=="POST":
         u=request.form["username"]
         p=hashIt(request.form["pass"])
@@ -43,7 +43,7 @@ def welcome():
     if 'username' in session:
         return render_template('home.html', name = session['username'])
     else:
-        return "Not logged in. Error?" #possible change this for redirect to login
+        return "Not logged in. Error" #possible change this for redirect to login
 
 @app.route("/logout/")
 def logout():
@@ -55,24 +55,40 @@ def logout():
 def settings():
     if 'username' in session: #check if user can actually use settings
         return render_template('settings.html') #add more arguments from Lorenz's db util files
+    else:
+        return "Not logged in. Error" #possible change this for redirect to login
 
 @app.route("/add_story", methods=["POST"])
 def add_story:
-    text = request.form["storytext"]
-    contributor = request.form["contributor"]
-    title = request.form["title"]
-    if dbaccess.add_story(text, contributor, title):
-        #do something when story is successfully added
+    if 'username' in session:
+        text = request.form["storytext"]
+        contributor = request.form["contributor"]
+        title = request.form["title"]
+        if dbaccess.add_story(text, contributor, title):
+            #do something when story is successfully added
+            return render_template('story.html',message="Success! Story created.")
+        else:
+            #do something if story does not exist
+            return render_template('story.html',message="Unable to create a story. Story title taken.")
     else:
-        #do something if story does not exist
+        return "Not logged in. Error" #possible change this for redirect to login
+        
 
 @app.route('/add_contribution', methods=["POST"])
 def add_contribution:
-    #I want the form to give us story title, contributer, and text of contribution
-    title = request.form["title"]
-    contributor = request.form["contributor"]
-    text = request.form["contribution"]
-    dbaccess.add_contribution(title, contributor, text)
+    if 'username' in session:
+        #I want the form to give us story title, contributer, and text of contribution
+        title = request.form["title"]
+        contributor = request.form["contributor"]
+        text = request.form["contribution"]
+        if dbaccess.add_contribution(title, contributor, text):
+            return render_template('story.html',message="Success! Contributed to story.")
+        else:
+            return render_template('story.html',message="Unable to contribute. You have already contributed to this story!")
+    else:
+        return "Not logged in. Error" #possible change this for redirect to login
+    
+
 
 if __name__ == "__main__":
     app.debug = True
