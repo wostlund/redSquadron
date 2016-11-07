@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<html>
+
+    <form action="/addContributionM" name="story" id = "menus" method="POST">
+        {% for i in info1%}
+                <button type = "submit" id = "hide" form ="story" name="name" value={{info[i][0]}}>
+		  
+                </button>
+        {% endfor %}
+    </form>
+
+</html>
