@@ -5,8 +5,14 @@
         <title>Welcome, {{username}}!</title>
     </head>
     <body>
+        <div id="header">Red Squadron</div>
         <div id="container">
             <br>
+            <form action="/addStory" method="POST" id="holder" name="add">
+                <button type="submit" id="button" name="story" value="{{username}}" form="add">
+                    Create Your Own Story    
+            </button>
+            </form>
 <div id="smallTitle">Suggested Stories</div>
     <form action="/story" name="story" id = "menus" method="POST">
                 <button type = "submit" id = "hide" form ="story" name="name" value={{info[i][2]}}>         
