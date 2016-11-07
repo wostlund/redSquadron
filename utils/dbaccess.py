@@ -102,6 +102,7 @@ def add_story(title, body, contributor):
                     p_title=title, p_body=body, p_uid=story_creator, p_contributors=contributors))
             return True
 
+
 def add_contribution(title, contributor, text):
     with sqlite3.connect('data.db') as conn:
         curs = conn.cursor()
@@ -111,7 +112,7 @@ def add_contribution(title, contributor, text):
         if row:
             sid = row[0]["sid"]
             contributors = row[0]["contributors"].split(",")
-        row = curs.execute("SELECT uid from user where username='{p_username}'".format(p_username))
+        row = curs.execute("SELECT uid from user where username='{p_username}'".format(p_username=contributor))
         uid = ""
         if row:
             uid = row[0]["uid"]
@@ -128,8 +129,25 @@ def add_contribution(title, contributor, text):
         curs.execute(
             "UPDATE story SET contributors='{p_contributors}' WHERE sid='{p_sid}'".format(
                 p_contributors=new_contributors, p_sid=sid))
+
+        #update story body
+        story_body = curs.execute("SELECT body from story where title={p_title}'".format(p_title=title))
+        new_body = story_body + " " + new_body
+        curs.execute(
+            "UPDATE story SET body='{p_body}' WHERE sid='{p_sid}'".format(
+                p_body=new_body, p_sid=sid))
+        
         return True
 
-
-
-
+def last_contribution(title):
+    with sqlite3.connect('data.db') as conn:
+        curs = conn.cursor()
+        row1 = curs.execute("SELECT sid from story where title='{p_title}'".format(p_title=title))
+        sid = ""
+        if row1:
+            sid = row1[0]["sid"]
+        row2 = curs.execute("SELECT story_update from contribution where sid='p_sid'".format(p_sid=sid))
+        last = ""
+        if row2:
+            last = row2[0]["story_update"]
+        return last
