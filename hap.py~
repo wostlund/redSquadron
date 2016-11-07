@@ -66,28 +66,52 @@ def settings():
     else:
         return "Not logged in. Error" #possible change this for redirect to login
 
+@app.route("/addStory", methods = ["POST"])
+def addstory():
+    if 'username' in session: #check if user can actually use settings
+        return render_template('story.html',storyText = "") #add more arguments from Lorenz's db util files
+    else:
+        return "Not logged in. Error" #possible change this for redirect to login
+    
+
 @app.route("/add_story", methods=["POST"])
 def add_story():
     if 'username' in session:
-        text = request.form["storytext"]
-        contributor = request.form["contributor"]
+        text = request.form["storypart"]
+        contributor = session["username"]
         title = request.form["title"]
         if dbaccess.add_story(title, body, contributor):
             #story already exists
-            return render_template('story.html',message="Unable to create a story. Story title taken.")
+            return render_template('story.html', message="Unable to create a story. Story title taken.",storyText = "")
         else:
             #story good to go
-            return render_template('story.html',message="Success! Story created.")
+            return render_template('story.html',message="Success! Story created.",storyText = "", )
     else:
         return "Not logged in. Error" #possible change this for redirect to login
         
+@app.route('/addContribution', methods = ["POST"])
+def addcontribution():
+    if 'username' in session: #check if user can actually use settings
+        return render_template('story.html', info = dbaccess.show_unjoined(session["username"])) #add more arguments from Lorenz's db util files
+    else:
+        return "Not logged in. Error" #possible change this for redirect to login
+
+@app.route('/addContributionM', methods = ["POST"]) #in between -M
+def addcontribution():
+    if 'username' in session: #check if user can actually use settings
+        title = request.form["title"]
+        return render_template('story.html', storyText = last_contribution(title)) #add more arguments from Lorenz's db util files
+    else:
+        return "Not logged in. Error" #possible change this for redirect to login
+
+     
 
 @app.route('/add_contribution', methods=["POST"])
 def add_contribution():
     if 'username' in session:
         #I want the form to give us story title, contributer, and text of contribution
         title = request.form["title"]
-        contributor = request.form["contributor"]
+        contributor = session["username"]
         text = request.form["contribution"]
         if dbaccess.add_contribution(title, contributor, text):
             return render_template('story.html',message="Success! Contributed to story.")

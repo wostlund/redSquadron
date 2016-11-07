@@ -97,7 +97,7 @@ def addcontribution():
         return "Not logged in. Error" #possible change this for redirect to login
 
 @app.route('/addContributionM', methods = ["POST"]) #in between -M
-def addcontribution():
+def addcontributionM():
     if 'username' in session: #check if user can actually use settings
         title = request.form["title"]
         return render_template('story.html', storyText = last_contribution(title)) #add more arguments from Lorenz's db util files
