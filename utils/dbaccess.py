@@ -31,12 +31,13 @@ def check_log(username, password):
     with sqlite3.connect('data.db') as conn:
         curs = conn.cursor()
         user = curs.execute(
-            "SELECT name,pass from user where name = '{p_name}'".format(
+            "SELECT name,password from user where name = '{p_name}'".format(
                 p_name=username))
         if not user:
             return "Bad Login"
-#        if user[1] != hashlib.sha224(password).hexdigest():
-#            return "Bad Login"
+        for i in user: #should only return one
+            if i[1] != hashlib.sha224(password).hexdigest():
+                return "Bad Login"
         else:
             return "Good Login" #shouldn't be used though
 
