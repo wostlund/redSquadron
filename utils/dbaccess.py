@@ -13,7 +13,7 @@ def check_reg(username, password):
         return "Success"
 
 def valid_username(username):
-    if not username:
+    if not username or len(username) < 1 or username.isspace():
         return False
     else:
         return True
@@ -33,12 +33,13 @@ def check_log(username, password):
         user = curs.execute(
             "SELECT name,password from user where name = '{p_name}'".format(
                 p_name=username))
-        if user.len() < 1:
+        if not username or len(username) < 1 or username.isspace():
             return "Bad Login"
         if not user:
             return "Bad Login"
         for i in user: #should only return one
-            if i[0] == username
+            if i[0] != username:
+                return "Bad Login"
             if i[1] != hashlib.sha224(password).hexdigest():
                 return "Bad Login"
         else:
