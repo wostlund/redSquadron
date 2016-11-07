@@ -22,7 +22,14 @@ def registration():
         p=hashIt(request.form["pass"])
         button_val = request.form["val"]
         if button_val == "log":
-            login()
+            result = dbaccess.check_log(u, p)
+            if result == "Username invalid":
+                return render_template("login.html",message="Username invalid. Try again.")
+            elif result == "Password invalid":
+                return render_template("login.html",message="Password invalid. Try again.")
+            else:
+                session['username'] = request.form['username']
+                return redirect(url_for('welcome'))
         elif button_val == "reg"
             result = dbaccess.check_reg(u, p)
             if result  == "Username taken":
