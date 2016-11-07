@@ -33,9 +33,12 @@ def check_log(username, password):
         user = curs.execute(
             "SELECT name,password from user where name = '{p_name}'".format(
                 p_name=username))
+        if user.len() < 1:
+            return "Bad Login"
         if not user:
             return "Bad Login"
         for i in user: #should only return one
+            if i[0] == username
             if i[1] != hashlib.sha224(password).hexdigest():
                 return "Bad Login"
         else:
