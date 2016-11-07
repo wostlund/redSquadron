@@ -15,6 +15,7 @@ body {
     background-color: white;
     margin: 5%;
     margin-top: 0%;
+    margin-bottom: 3%;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -57,6 +58,10 @@ body {
 #holder {
     margin-left: 3%;
 }
+#holder2 {
+    margin-left: 45%;
+    align-content: center;
+}
 
 #button {
     
@@ -71,7 +76,62 @@ body {
     margin-bottom: 2%;
     border-width: 0px;
 }
+#button2 {
+    
+    background-color: #a6ff4d;
+    color: #333333;
+    font-weight: bold;
+    padding: 1% 5%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 125%;
+    margin-bottom: 2%;
+    border-width: 0px;
+}
 
 #button:hover {
     background-color: #39e600;
+}
+#button2:hover {
+    background-color: #39e600;
+}
+#button3:hover {
+    background-color: #39e600;
+}
+
+#form1 {
+    margin-left: 3%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    background: white;
+    border-width: 0px;
+    font-size: 125%;
+    width:93.5%;
+    text-align: left;
+
+}
+
+#button3 {
+    width: 8%;
+    margin-left: 2%;
+    margin-right: 2%;
+    background-color: #a6ff4d;
+    color: #333333;
+    font-weight: bold;
+    padding: 1% 2%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 125%;
+    margin-bottom: 2%;
+    border-width: 0px;
+}
+
+#buttons {
+    margin-left: 35%;
+}
+
+#center {
+    text-align: justify;
 }
