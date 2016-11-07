@@ -43,7 +43,8 @@ def authenticate():
 @app.route("/welcome/")
 def welcome():
     if 'username' in session:
-        return render_template('home.html', name = session['username'])
+        name = session['username']
+        return render_template('home.html', info1 = show_unjoined(name), info2 = show_joined(name))
     else:
         return "Not logged in. Error" #possible change this for redirect to login
 
