@@ -26,7 +26,7 @@ def authenticate():
             if result == "Bad Login":
                 return render_template("login.html",message="Username or Password invalid. Try again.")
             else:
-                session['user'] = request.form['user']
+                session['username'] = request.form['user']
                 return redirect(url_for('welcome'))
         elif button_val == "reg":
             print ('before check reg')
