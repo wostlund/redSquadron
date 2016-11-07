@@ -102,8 +102,9 @@ def add_story(title, body, contributor):
         story_creator = ""
         contributors = ""
         if row:
-            story_creator = row[0]["uid"]
-            contributors = story_creator
+            for i in row:
+                story_creator = i[0]
+                contributors = story_creator
         # 2. Check if story exists.  Story exists if title exists
         row = curs.execute("SELECT sid from story where title='{p_title}'".format(p_title=title))
         if row:

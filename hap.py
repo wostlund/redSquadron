@@ -77,9 +77,9 @@ def addstory():
 @app.route("/add_story", methods=["POST"])
 def add_story():
     if 'username' in session:
-        text = request.form["storypart"]
+        body = request.form["storypart"]
         contributor = session["username"]
-        title = request.form["title"]
+        title = request.form["id"]
         if dbaccess.add_story(title, body, contributor):
             #story already exists
             return render_template('story.html', message="Unable to create a story. Story title taken.",storyText = "")
