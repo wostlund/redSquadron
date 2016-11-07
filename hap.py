@@ -85,7 +85,7 @@ def add_story():
             return render_template('story.html', message="Unable to create a story. Story title taken.",storyText = "")
         else:
             #story good to go
-            return render_template('story.html',message="Success! Story created.",storyText = "", )
+            return render_template('story.html',message="Success! Story created.",storyText = "" )
     else:
         return "Not logged in. Error" #possible change this for redirect to login
         
