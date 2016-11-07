@@ -13,7 +13,7 @@ def check_reg(username, password):
     return "Success"
 
 def valid_username(username):
-    if username.isspace():
+    if username.isspace() or username.len() < 1:
         return False
     return True
 
