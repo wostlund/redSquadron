@@ -5,6 +5,7 @@ app = Flask(__name__)
 
 app.secret_key = '\x90\xfb\x0f6\x1dY\xa5i\x93+m\x83\xd8\xd9\xad\x91}\xef\x95]_\xe2i\xde\xcc\xb7\x03c\x83\xf3\xd1J'
 
+db_access.create_db()
 db = sqlite3.connect(data/data.db)
 
 @app.route("/")
@@ -27,27 +28,6 @@ def registration():
         else:
             add_account(u, p)
             return render_template("login.html",message="Success! Your account has been created.")
-
-def check_reg(username, password):
-    if not valid_username(username):
-        return "Invalid username"
-    curs = db.cursor()
-    rows = curs.execute("SELECT name from user where name={input_name}".format(input_name=username))
-    if rows:
-        return "Username taken"
-    return "Success"
-
-def valid_username(username):
-    if not username:
-        return False
-
-def add_account(username, password):
-    curs = db.cursor()
-    curs.execute("INSERT INTO users (name, password) VALUES ({input_u}, {input_p})".format(input_u=username, input_p=password))
-    db.commit()
-    
-#def register():
-#    return render_template('register.html')
 
 @app.route("/welcome/")
 def welcome():
