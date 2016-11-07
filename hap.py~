@@ -55,6 +55,8 @@ def welcome():
 def logout():
     if 'username' in session:
         session.pop('username', None)
+    else:
+        return "ERROR.  You're in the wrong place"
     return redirect(url_for('login'))
 
 @app.route("/settings")

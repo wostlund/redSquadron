@@ -51,7 +51,7 @@ def welcome():
     else:
         return "Not logged in. Error" #possible change this for redirect to login
 
-@app.route("/logout/")
+@app.route("/logout", methods = ["POST"])
 def logout():
     if 'username' in session:
         session.pop('username', None)
