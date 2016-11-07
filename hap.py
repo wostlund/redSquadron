@@ -66,6 +66,14 @@ def add_story:
     else:
         #do something if story does not exist
 
+@app.route('/add_contribution', methods=["POST"])
+def add_contribution:
+    #I want the form to give us story title, contributer, and text of contribution
+    title = request.form["title"]
+    contributor = request.form["contributor"]
+    text = request.form["contribution"]
+    dbaccess.add_contribution(title, contributor, text)
+
 if __name__ == "__main__":
     app.debug = True
     app.run()

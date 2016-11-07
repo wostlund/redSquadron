@@ -40,3 +40,5 @@ def add_story(body, title, contributor, uid):
         db.commit()
         return True
 
+def add_contribution():
+
