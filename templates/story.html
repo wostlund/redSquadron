@@ -8,7 +8,7 @@
         <p id="storyText">
             {{storyText}}
         </p>
- <!--       {% if joined and turn %}-->
+
 
         <div id="addText">
             <form name="add" method="POST">
@@ -16,17 +16,7 @@
             </form>
                 <button type="submit" name="id" action="/storyAdd" id="button" form="add" value={{storyID}}>Add Text</button>
         </div>
-<!--        {% endif %}-->
-<!--        {% for comment in comments %}
-            <div id="comment">{{comment}}</div>
-        {%endfor%}
-        {% if joined%}
-            <form name="add" method="POST">
-                <input type="text" name="comment" id="addComment"> 
-            </form>
-                <button type="submit" name="id" action="/commentAdd" id="button" form="add" value={{storyID}}>Add Comment</button>
-        {% endif %}
--->
+
 </div>
     
 {% endblock %}
