@@ -29,12 +29,15 @@ def authenticate():
                 session['user'] = request.form['user']
                 return redirect(url_for('welcome'))
         elif button_val == "reg":
+            print ('before check reg')
             result = dbaccess.check_reg(u, p)
+            print ('after check reg')
             if result  == "Username taken":
                 return render_template("login.html",message="Username taken. Be more original")
             elif result == "Invalid username":
                 return render_template("login.html",message="Invalid username. Please change it.")
             else:
+                print ('before add account')
                 dbaccess.add_account(u, p)
                 return render_template("login.html",message="Success! Your account has been created.")
     else:
