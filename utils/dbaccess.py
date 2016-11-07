@@ -49,17 +49,31 @@ def add_story(body, title, contributor, uid):
 
 def add_contribution(title, contributor, text):
     curs = db.cursor()
-    row = curs.execute("SELECT sid from story where title={p_title}".format(p_title=title))
+    row = curs.execute("SELECT sid, contributors from story where title={p_title}".format(p_title=title))
     sid = ""
+    contributors = []
     if row:
         sid = row[0]["sid"]
+        contributors = row[0]["contributors"].split(",")
     row = curs.execute("SELECT uid from user where username={p_username}".format(p_username))
     uid = ""
     if row:
         uid = row[0]["uid"]
+    if uid in contributors:
+        #means this person has already contributed
+        return False
+    # insert to contribution table
     curs.execute(
         "INSERT INTO contribution(sid, uid, story_update, date_added) "
         "VALUES ({p_sid}, {p_uid}, {p_update}, {p_date})".format(
-            p_sid=sid, p_uid=uid, p_update=story_update, p_date=time.strftime("%c"))
+            p_sid=sid, p_uid=uid, p_update=story_update, p_date=time.strftime("%c")))
+    # update story table
+    new_contributors = ','.join(contributors.append(uid))
+    curs.execute(
+        "UPDATE story SET contributors={p_contributors} WHERE sid={p_sid}".format(
+            p_contributors=new_contributors, p_sid=sid))
+    return True
+
+
 
 

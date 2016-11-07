@@ -59,7 +59,7 @@ def settings():
         return "Not logged in. Error" #possible change this for redirect to login
 
 @app.route("/add_story", methods=["POST"])
-def add_story:
+def add_story():
     if 'username' in session:
         text = request.form["storytext"]
         contributor = request.form["contributor"]
@@ -75,7 +75,7 @@ def add_story:
         
 
 @app.route('/add_contribution', methods=["POST"])
-def add_contribution:
+def add_contribution():
     if 'username' in session:
         #I want the form to give us story title, contributer, and text of contribution
         title = request.form["title"]
@@ -84,12 +84,11 @@ def add_contribution:
         if dbaccess.add_contribution(title, contributor, text):
             return render_template('story.html',message="Success! Contributed to story.")
         else:
+            #this person has already contributed, not allowed to contribute to story
             return render_template('story.html',message="Unable to contribute. You have already contributed to this story!")
     else:
         return "Not logged in. Error" #possible change this for redirect to login
     
-
-
 if __name__ == "__main__":
     app.debug = True
     app.run()
