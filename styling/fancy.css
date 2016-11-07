@@ -135,3 +135,38 @@ body {
 #center {
     text-align: justify;
 }
+
+#storyText {
+    margin-left: 3%;
+    margin-right: 3%;
+    font-size: 113%;
+    margin-bottom: 0%;
+}
+
+#comment {
+    
+    margin-left: 4%;
+    margin-bottom: 0%;
+    margin-top: .5%;
+    margin-bottom: .5%;
+    background: white;
+    border-width: 0px;
+    font-size: 112%;
+    width:93.5%;
+    text-align: left;
+}
+
+#addText {
+    
+    margin-left: 4%;
+    margin-bottom: 0%;
+    margin-top: .5%;
+    margin-bottom: .5%;
+    background: white;
+    border-width: 0px;
+    font-size: 112%;
+    width:93.5%;
+    text-align: left;
+    font-weight: bold;
+}
+
