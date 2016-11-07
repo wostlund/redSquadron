@@ -59,24 +59,23 @@ def settings():
         return "Not logged in. Error" #possible change this for redirect to login
 
 @app.route("/add_story", methods=["POST"])
-def add_story:
+def add_story():
     if 'username' in session:
         text = request.form["storytext"]
         contributor = request.form["contributor"]
         title = request.form["title"]
-        if dbaccess.add_story(text, contributor, title):
-            #do something when story is successfully added
-            return render_template('story.html',message="Success! Story created.")
-        else:
-            #do something if story does not exist
+        if dbaccess.add_story(title, body, contributor):
+            #story already exists
             return render_template('story.html',message="Unable to create a story. Story title taken.")
+        else:
+            #story good to go
+            return render_template('story.html',message="Success! Story created.")
     else:
         return "Not logged in. Error" #possible change this for redirect to login
         
 
 @app.route('/add_contribution', methods=["POST"])
-def add_contribution:
-<<<<<<< HEAD
+def add_contribution():
     if 'username' in session:
         #I want the form to give us story title, contributer, and text of contribution
         title = request.form["title"]
@@ -85,22 +84,11 @@ def add_contribution:
         if dbaccess.add_contribution(title, contributor, text):
             return render_template('story.html',message="Success! Contributed to story.")
         else:
+            #this person has already contributed, not allowed to contribute to story
             return render_template('story.html',message="Unable to contribute. You have already contributed to this story!")
     else:
         return "Not logged in. Error" #possible change this for redirect to login
     
-
-=======
-    #I want the form to give us story title, contributer, and text of contribution
-    title = request.form["title"]
-    contributor = request.form["contributor"]
-    text = request.form["contribution"]
-    if not dbaccess.add_contribution(title, contributor, text):
-        #this person has already contributed, not allowed to contribute to story
-
-#latest contribution
->>>>>>> 2f52d78c254c0a841c141f38886872c190b88fa6
-
 if __name__ == "__main__":
     app.debug = True
     app.run()

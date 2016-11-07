@@ -18,7 +18,7 @@ def authenticate():
     if request.method=="POST":
         u=request.form["username"]
         p=hashIt(request.form["pass"])
-        button_val = request.form["val"]
+        button_val = request.form["value"]
         if button_val == "log":
             result = dbaccess.check_log(u, p)
             if result == "Username invalid":
@@ -28,7 +28,7 @@ def authenticate():
             else:
                 session['username'] = request.form['username']
                 return redirect(url_for('welcome'))
-        elif button_val == "reg"
+        elif button_val == "reg":
             result = dbaccess.check_reg(u, p)
             if result  == "Username taken":
                 return render_template("login.html",message="Username taken. Be more original")
@@ -37,6 +37,10 @@ def authenticate():
             else:
                 dbaccess.add_account(u, p)
                 return render_template("login.html",message="Success! Your account has been created.")
+        else:
+            return "You're in the wrong place"
+    else:
+        return "You're in the wrong place"
 
 @app.route("/welcome/")
 def welcome():
