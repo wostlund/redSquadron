@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request, session, url_for, redirect
-import sqlite3
+from utils import dbaccess
+
 
 app = Flask(__name__)
 
 app.secret_key = '\x90\xfb\x0f6\x1dY\xa5i\x93+m\x83\xd8\xd9\xad\x91}\xef\x95]_\xe2i\xde\xcc\xb7\x03c\x83\xf3\xd1J'
 
-dbaccess.create_db()
 db = sqlite3.connect(data/data.db)
 
 @app.route("/")
@@ -24,13 +24,13 @@ def registration():
         if button_val == "log":
             login()
         elif button_val == "reg"
-            result = check_reg(u, p)
+            result = dbaccess.check_reg(u, p)
             if result  == "Username taken":
                 return render_template("login.html",message="Username taken. Be more original")
             elif result == "Invalid username":
                 return render_template("login.html",message="Invalid username. Please change it.")
             else:
-                add_account(u, p)
+                dbaccess.add_account(u, p)
                 return render_template("login.html",message="Success! Your account has been created.")
 
 @app.route("/welcome/")
@@ -56,7 +56,10 @@ def add_story:
     text = request.form["storytext"]
     contributor = request.form["contributor"]
     title = request.form["title"]
-    dbaccess.add_story(text, contributor, title)
+    if dbaccess.add_story(text, contributor, title):
+        #do something when story is successfully added
+    else:
+        #do something if story does not exist
 
 if __name__ == "__main__":
     app.debug = True
