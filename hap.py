@@ -64,12 +64,12 @@ def add_story():
         text = request.form["storytext"]
         contributor = request.form["contributor"]
         title = request.form["title"]
-        if dbaccess.add_story(text, contributor, title):
-            #do something when story is successfully added
-            return render_template('story.html',message="Success! Story created.")
-        else:
-            #do something if story does not exist
+        if dbaccess.add_story(title, body, contributor):
+            #story already exists
             return render_template('story.html',message="Unable to create a story. Story title taken.")
+        else:
+            #story good to go
+            return render_template('story.html',message="Success! Story created.")
     else:
         return "Not logged in. Error" #possible change this for redirect to login
         

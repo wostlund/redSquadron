@@ -26,7 +26,7 @@ def add_account(username, password):
             p_user=username, p_password=password))
     db.commit()
 
-def add_story(body, title, contributor, uid):
+def add_story(title, body, contributor):
     # 1. Get the uid of the contributor
     curs = db.cursor()
     row = curs.execute("SELECT uid from user where name={p_name}".format(p_name=contributor))
@@ -41,9 +41,9 @@ def add_story(body, title, contributor, uid):
         return False
     else:
         curs.execute(
-            "INSERT INTO story (body, title, contributors, uid) "
-            "VALUES ({p_body}, {p_title}, {p_contributors}, {p_uid})".format(
-                p_body=body, p_title=title, p_contributors=contributors, p_uid=uid))
+            "INSERT INTO story (title, body, uid, contributors) "
+            "VALUES ({p_title}, {p_body}, {p_uid}, {p_contributors})".format(
+                p_title=title, p_body=body, p_uid=story_creator, p_contributors=contributors))
         db.commit()
         return True
 
