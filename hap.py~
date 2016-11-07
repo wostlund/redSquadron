@@ -79,8 +79,8 @@ def add_story():
     if 'username' in session:
         text = request.form["storypart"]
         contributor = session["username"]
-        title = request.form["title"]
-        if dbaccess.add_story(title, body, contributor):
+        title = "jeff"
+        if dbaccess.add_story(title, text, contributor):
             #story already exists
             return render_template('story.html', message="Unable to create a story. Story title taken.",storyText = "")
         else:

@@ -79,8 +79,8 @@ def add_story():
     if 'username' in session:
         text = request.form["storypart"]
         contributor = session["username"]
-        title = "jeff"
-        if dbaccess.add_story(title, text, contributor):
+        title = request.form["title"]
+        if dbaccess.add_story(title, body, contributor):
             #story already exists
             return render_template('story.html', message="Unable to create a story. Story title taken.",storyText = "")
         else:
@@ -89,12 +89,12 @@ def add_story():
     else:
         return "Not logged in. Error" #possible change this for redirect to login
         
-@app.route('/addContribution', methods = ["POST"])
-def addcontribution():
-    if 'username' in session: #check if user can actually use settings
-        return render_template('list.html', info = dbaccess.show_unjoined(session["username"])) #add more arguments from Lorenz's db util files
-    else:
-        return "Not logged in. Error" #possible change this for redirect to login
+#@app.route('/addContribution', methods = ["POST"])
+#def addcontribution():
+#    if 'username' in session: #check if user can actually use settings
+#        return render_template('list.html', info = dbaccess.show_unjoined(session["username"])) #add more arguments from Lorenz's db util files
+#    else:
+#        return "Not logged in. Error" #possible change this for redirect to login
 
 @app.route('/addContributionM', methods = ["POST"]) #in between -M
 def addcontributionM():

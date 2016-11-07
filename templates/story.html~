@@ -9,13 +9,11 @@
             {{storyText}}
         </p>
 
+            <form action = "/add_story" name = "add" method = "POST">
+                <input type = "text" name="storypart"> 
 
-        <div id="addText">
-            <form name="add" method="POST">
-                <input type="text" name="storypart"> 
+                <button type = "submit" name = "id" id = "button" value="work please">Add Text</button>
             </form>
-                <button type="submit" name="id" action="/storyAdd" id="button" form="add" value={{storyID}}>Add Text</button>
-        </div>
 
 </div>
     
