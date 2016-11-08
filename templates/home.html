@@ -10,7 +10,7 @@
     </button>
 </form>
 <div id="smallTitle">Suggested Stories</div>
-    <form action="/addContribution2" name="story" id = "menus" method="POST">
+    <form action="/addContributions" name="story" id = "menus" method="POST">
         {% for i in info1%}
                 <button type = "submit" id = "hide" name="name" value="{{info1[i][0]}}">
                     <div id="menu">{{info1[i][0]}} by {{info1[i][1]}}</div>

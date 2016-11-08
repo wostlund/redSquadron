@@ -97,18 +97,25 @@ def addstory():
 #    else:
 #        return "Not logged in. Error" #possible change this for redirect to login
 
-@app.route('/addContributionM', methods = ["POST"]) #in between -M
-def addcontributionM():
+@app.route('/addContribution', methods = ["POST"]) #in between -M
+def addContribution():
     if 'username' in session: #check if user can actually use settings
-        title = request.form["title"]
-        return render_template('story.html', storyText = last_contribution(title)) #add more arguments from Lorenz's db util files
+        title = request.form["name"]
+        return render_template('story.html', storyText = dbaccess.last_contribution(title)) #add more arguments from Lorenz's db util files
     else:
         return "Not logged in. Error" #possible change this for redirect to login
 
-     
+@app.route('/addContribution2', methods = ["POST"]) #in between -M
+def addContributions():
+    if 'username' in session: #check if user can actually use settings
+        title = request.form["name"]
+        return render_template('seenStory.html', storyText = dbaccess.last_contribution(title), Title=title) #add more arguments from Lorenz's db util files
+    else:
+        return "Not logged in. Error" #possible change this for redirect to login
+
 
 @app.route('/add_contribution', methods=["POST"])
-def addcontribution():
+def add_contribution():
     if 'username' in session:
         #I want the form to give us story title, contributer, and text of contribution
         title = request.form["title"]
@@ -121,7 +128,21 @@ def addcontribution():
             return render_template('story.html',message="Unable to contribute. You have already contributed to this story!")
     else:
         return "Not logged in. Error" #possible change this for redirect to login
+
+@app.route("/story", methods = ["POST"])
+def display():
+    if 'username' in session: #check if user can actually use settings
+        print request.form
+        story = request.form["name"]
+        print story
+        print dbaccess.get_storytext(story)
+        return render_template('seenStory.html',storyText =dbaccess.get_storytext(story), Title = story,  ) #add more arguments from Lorenz's db util files
+    else:
+        return "Not logged in. Error" #possible change this for redirect to login
+
     
 if __name__ == "__main__":
     app.debug = True
     app.run()
+
+
