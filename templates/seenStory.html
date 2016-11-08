@@ -1,0 +1,27 @@
+{% extends "super.html" %}
+{% block title %}
+<title>{{Title}}</title>
+{% endblock %}
+{% block body %}
+    <div id="container">
+        <div id="smallTitle">{{Title}}</div>
+        <p id="storyText">
+            {{storyText}}
+        </p>
+	<p> {{message}} </p>
+            <form action = "/addstory" name = "add" method = "POST">
+                {{title}}
+                {{storyText}}
+                Add the following to the story:<input type ="text" name="storypart"> 
+
+                <button type = "submit" name = "id" id = "button" value={{Title}}>Add Text</button>
+            </form>
+        <form action="/home" method="POST" id="holder2" name="add">
+                <button type="submit" id="button2" name="story" value={{username}}>
+                    Log Out    
+            </button>
+        </form>
+
+</div>
+    
+{% endblock %}
