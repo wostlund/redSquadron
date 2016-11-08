@@ -47,7 +47,7 @@ def authenticate():
 def fred():
     return redirect(url_for("welcome"))
     
-@app.route("/welcome")
+@app.route("/welcome/")
 def welcome():
     if 'username' in session:
         name = session['username']
