@@ -86,7 +86,7 @@ def show_unjoined(user):
             for q in contributors:
                 if str(q) == str(id):
                     exist = True
-            if not exist:
+            if exist:
                 info[i] = ["","",""] 
                 info[i][0] = i[0] #title
                 info[i][1] = i[4] #name of uid 
@@ -111,7 +111,7 @@ def show_joined(user):
             for q in contributors:
                 if str(q) == str(id):
                     exist = True
-            if exist:
+            if not exist:
                 info[i] = ["","",""] 
                 info[i][0] = i[0] #title
                 info[i][1] = i[4] #name of uid 
