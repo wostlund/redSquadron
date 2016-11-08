@@ -201,7 +201,7 @@ def last_contribution(title):
         sid = ""
         for q in row1:
             sid = q[0]
-        row2 = curs.execute("SELECT story_update from contribution where sid='{p_sid}' and cid=(SELECT MAX(cid) from contribution".format(p_sid=sid))
+        row2 = curs.execute("SELECT story_update from contribution where sid='{p_sid}' and cid=(SELECT MAX(cid) from contribution)".format(p_sid=sid))
         last = ""
         for i in row2:
             last = i[0]
