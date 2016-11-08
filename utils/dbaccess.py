@@ -69,31 +69,55 @@ def check_log(username, password):
 #            return "Good Login" #shouldn't be used though
 
 def show_unjoined(user): 
+    id = "" #current user id
+    with sqlite3.connect('data.db') as conn: 
+        curs = conn.cursor()
+        row = curs.execute("SELECT uid from user where name = '{p_name}'".format(p_name = user))
+        for i in row:
+            id = i[0]           
+
     with sqlite3.connect('data.db') as conn: 
         curs = conn.cursor() 
-        info = {} 
-        row = curs.execute("SELECT title, body, uid from story where contributors!='{p_name}'".format(p_name=user)) 
+        info = {}         
+        row = curs.execute("SELECT title, body, story.uid, contributors, name from story, user where story.uid = user.uid")
         for i in row: 
-            print str(i[0])+ " " +  str(i[1]) + " " +str(i[2])
-
-            info[i] = [0,0,0] 
-            info[i][0] = i[0] 
-            info[i][1] = i[2] 
-            info[i][2] = i[1] 
+            contributors = i[3].split(",")
+            exist = False
+            for q in contributors:
+                if str(q) == str(id):
+                    exist = True
+            if not exist:
+                info[i] = ["","",""] 
+                info[i][0] = i[0] #title
+                info[i][1] = i[4] #name of uid 
+                info[i][2] = i[1] #body
         return info 
         
 def show_joined(user): 
+    id = "" #current user id
+    with sqlite3.connect('data.db') as conn: 
+        curs = conn.cursor()
+        row = curs.execute("SELECT uid from user where name = '{p_name}'".format(p_name = user))
+        for i in row:
+            id = i[0]       
     with sqlite3.connect('data.db') as conn: 
         curs = conn.cursor() 
         info = {} 
-        row = curs.execute("SELECT title, body, uid from story where contributors='{p_name}'".format(p_name=user)) 
+        row = curs.execute("SELECT title, body, story.uid, contributors, name from story, user where story.uid = user.uid")
         for i in row: 
-            print str(i[0])+ " " +  str(i[1]) + " " +str(i[2])
-            info[i] = [0,0,0] 
-            info[i][0] = i[0] 
-            info[i][1] = i[2] 
-            info[i][2] = i[1] 
-        return info    
+            print str(i[0])+ " " +  str(i[1]) + " " +str(i[2]) + " " + str(i[3]) + " " + str(i[4])
+            contributors = i[3].split(",")
+            exist = False
+            for q in contributors:
+                if str(q) == str(id):
+                    exist = True
+            if exist:
+                info[i] = ["","",""] 
+                info[i][0] = i[0] #title
+                info[i][1] = i[4] #name of uid 
+                info[i][2] = i[1] #body
+        return info 
+
 
 def add_story(title, body, contributor):
     # 1. Get the uid of the contributor
@@ -156,8 +180,15 @@ def last_contribution(title):
         sid = ""
         if row1:
             sid = row1[0]["sid"]
-        row2 = curs.execute("SELECT story_update from contribution where sid='p_sid'".format(p_sid=sid))
+        row2 = curs.execute("SELECT story_update from contribution where sid='{p_sid}'".format(p_sid=sid))
         last = ""
         if row2:
             last = row2[0]["story_update"]
         return last
+
+
+
+
+
+
+
