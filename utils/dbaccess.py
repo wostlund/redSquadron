@@ -179,6 +179,19 @@ def get_storytext(title):
         for i in row1:
             return i[0]
 
+def get_storyauth(title):
+    authid = ""
+    with sqlite3.connect('data.db') as conn:
+        curs = conn.cursor()
+        row1 = curs.execute("SELECT uid from story where title='{p_title}'".format(p_title=title))
+        for i in row1:
+            authid = i[0] #should only be one
+    with sqlite3.connect('data.db') as conn:
+        curs = conn.cursor()
+        row1 = curs.execute("SELECT name from user where user.id = '{p_uid}'".format(p_uid = authid))
+        for i in row1:
+            return i[0]
+
 
 
 def last_contribution(title):
