@@ -74,11 +74,12 @@ def show_unjoined(user):
         info = {} 
         row = curs.execute("SELECT title, body, uid from story where contributors!='{p_name}'".format(p_name=user)) 
         for i in row: 
-            id = i[2] 
-            info[id] = [0,0,0] 
-            info[id][0] = i[0] 
-            info[id][1] = i[2] 
-            info[id][2] = i[1] 
+            print str(i[0])+ " " +  str(i[1]) + " " +str(i[2])
+
+            info[i] = [0,0,0] 
+            info[i][0] = i[0] 
+            info[i][1] = i[2] 
+            info[i][2] = i[1] 
         return info 
         
 def show_joined(user): 
@@ -87,11 +88,11 @@ def show_joined(user):
         info = {} 
         row = curs.execute("SELECT title, body, uid from story where contributors='{p_name}'".format(p_name=user)) 
         for i in row: 
-            id = i[2] 
-            info[id] = [0,0,0] 
-            info[id][0] = i[0] 
-            info[id][1] = i[2] 
-            info[id][2] = i[1] 
+            print str(i[0])+ " " +  str(i[1]) + " " +str(i[2])
+            info[i] = [0,0,0] 
+            info[i][0] = i[0] 
+            info[i][1] = i[2] 
+            info[i][2] = i[1] 
         return info    
 
 def add_story(title, body, contributor):
