@@ -77,9 +77,10 @@ def addstory1():
 @app.route("/addstory", methods=["POST"])
 def addstory():
     if 'username' in session:
+        print request.form
         body = request.form["storypart"]
         contributor = session["username"]
-        title = request.form["id"]
+        title = request.form["title"]
         dbaccess.add_story(title, body, contributor)
         return render_template('story.html',message="Success! Story created.",storyText = "" )
     else:
