@@ -21,7 +21,7 @@
 <div id="smallTitle">Your Stories</div>
     <form action="/addContribution" name="story2" id = "menus" method="POST">
         {% for i in info2%}
-                <button type = "submit" id = "hide"  name="name" value={{info2[i][0]}}>         
+                <button type = "submit" id = "hide"  name="name" value={{info2[i]}}>         
                     <div id="menu"><i>{{info2[i][0]}}</i> by {{info2[i][1]}}</div>
                 </button>
         {% endfor %}

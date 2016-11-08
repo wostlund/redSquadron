@@ -169,9 +169,17 @@ def add_contribution(title, contributor, text):
         new_body = story_body + " " + new_body
         curs.execute(
             "UPDATE story SET body='{p_body}' WHERE sid='{p_sid}'".format(
-                p_body=new_body, p_sid=sid))
-        
+                p_body=new_body, p_sid=sid))        
         return True
+
+def get_storytext(title):
+    with sqlite3.connect('data.db') as conn:
+        curs = conn.cursor()
+        row1 = curs.execute("SELECT body from story where title='{p_title}'".format(p_title=title))
+        for i in row1:
+            return i[0]
+
+
 
 def last_contribution(title):
     with sqlite3.connect('data.db') as conn:
