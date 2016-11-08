@@ -128,6 +128,7 @@ def display():
         print request.form
         story = request.form["name"]
         print story
+        print dbaccess.get_storytext(story)
         return render_template('seenStory.html',storyText =dbaccess.get_storytext(story), Title = story,  ) #add more arguments from Lorenz's db util files
     else:
         return "Not logged in. Error" #possible change this for redirect to login

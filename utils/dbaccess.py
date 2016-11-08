@@ -199,12 +199,12 @@ def last_contribution(title):
         curs = conn.cursor()
         row1 = curs.execute("SELECT sid from story where title='{p_title}'".format(p_title=title))
         sid = ""
-        if row1:
-            sid = row1[0]["sid"]
-        row2 = curs.execute("SELECT story_update from contribution where sid='{p_sid}'".format(p_sid=sid))
+        for q in row1:
+            sid = q[0]
+        row2 = curs.execute("SELECT story_update from contribution where sid='{p_sid}' and cid=(SELECT MAX(cid) from contribution".format(p_sid=sid))
         last = ""
-        if row2:
-            last = row2[0]["story_update"]
+        for i in row2:
+            last = i[0]
         return last
 
 
