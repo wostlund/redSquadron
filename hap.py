@@ -66,16 +66,16 @@ def settings():
     else:
         return "Not logged in. Error" #possible change this for redirect to login
 
-@app.route("/addStory", methods = ["POST"])
-def addstory():
+@app.route("/addStory1", methods = ["POST"])
+def addstory1():
     if 'username' in session: #check if user can actually use settings
         return render_template('story.html',storyText = "") #add more arguments from Lorenz's db util files
     else:
         return "Not logged in. Error" #possible change this for redirect to login
     
 
-@app.route("/add_story", methods=["POST"])
-def add_story():
+@app.route("/addstory", methods=["POST"])
+def addstory():
     if 'username' in session:
         body = request.form["storypart"]
         contributor = session["username"]
@@ -107,7 +107,7 @@ def addcontributionM():
      
 
 @app.route('/add_contribution', methods=["POST"])
-def add_contribution():
+def addcontribution():
     if 'username' in session:
         #I want the form to give us story title, contributer, and text of contribution
         title = request.form["title"]
