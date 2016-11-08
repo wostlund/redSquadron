@@ -106,17 +106,10 @@ def add_story(title, body, contributor):
                 story_creator = i[0]
                 contributors = story_creator
         # 2. Check if story exists.  Story exists if title exists
-        row = curs.execute("SELECT sid from story where title='{p_title}'".format(p_title=title))
-        if row:
-            print "this"
-            return False
-        else:
-            curs.execute(
-                "INSERT INTO story (title, body, uid, contributors) "
-                "VALUES ('{p_title}', '{p_body}', '{p_uid}', '{p_contributors}')".format(
-                    p_title=title, p_body=body, p_uid=story_creator, p_contributors=contributors))
-            print "that"
-            return True
+        curs.execute(
+            "INSERT INTO story (title, body, uid, contributors) "
+            "VALUES ('{p_title}', '{p_body}', '{p_uid}', '{p_contributors}')".format(
+                p_title=title, p_body=body, p_uid=story_creator, p_contributors=contributors))
 
 
 def add_contribution(title, contributor, text):
