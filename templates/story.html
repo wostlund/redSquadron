@@ -10,11 +10,16 @@
         </p>
 	<p> {{message}} </p>
             <form action = "/addstory" name = "add" method = "POST">
-                Title: <input type ="text" name="title">
+                Title: <input type ="text" name="title"><br>
                 Add the following to the story:<input type ="text" name="storypart"> 
 
                 <button type = "submit" name = "id" id = "button" value={{Title}}>Add Text</button>
             </form>
+        <form action="/home" method="POST" id="holder2" name="add">
+                <button type="submit" id="button2" name="story" value={{username}}>
+                    Log Out    
+            </button>
+        </form>
 
 </div>
     

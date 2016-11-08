@@ -43,7 +43,11 @@ def authenticate():
     else:
         return "You're in the wrong place"
 
-@app.route("/welcome/")
+@app.route("/home", methods=["POST"])
+def fred():
+    return redirect(url_for("welcome"))
+    
+@app.route("/welcome")
 def welcome():
     if 'username' in session:
         name = session['username']
