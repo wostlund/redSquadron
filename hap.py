@@ -80,7 +80,7 @@ def addstory():
         body = request.form["storypart"]
         contributor = session["username"]
         title = request.form["id"]
-        dbaccess.add_story(title, body, contributor):
+        dbaccess.add_story(title, body, contributor)
         return render_template('story.html',message="Success! Story created.",storyText = "" )
     else:
         return "Not logged in. Error" #possible change this for redirect to login

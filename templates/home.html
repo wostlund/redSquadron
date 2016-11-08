@@ -14,7 +14,7 @@
     <form action="/story" name="story" id = "menus" method="POST">
         {% for i in info1%}
                 <button type = "submit" id = "hide" form ="story" name="name" value={{info1[i][0]}}>
-                    <div id="menu">info1[i][0]}} by {{info1[i][1]}}</div>
+                    <div id="menu">{{info1[i][0]}} by {{info1[i][1]}}</div>
                 </button>
         {% endfor %}
     </form>
