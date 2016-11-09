@@ -100,7 +100,7 @@ def addstory():
 @app.route('/addContributions', methods = ["POST"]) #in between -M
 def incContributions():
     if 'username' in session: #check if user can actually use settings
-        title = request.form["name"]
+        title = dbaccess.idtoname(request.form["name"])
         return render_template('seenStory.html', storyText = dbaccess.last_contribution(title), Title=title, mine = dbaccess.mine(session['username'],title)) #add more arguments from Lorenz's db util files
     else:
         return "Not logged in. Error" #possible change this for redirect to login
@@ -111,7 +111,7 @@ def add_contribution_redirect():
     if 'username' in session:
         #I want the form to give us story title, contributer, and text of contribution
         print request.form
-        title = request.form["name"]
+        title = dbaccess.idtoname(request.form["name"])
         contributor = session["username"]
         text = request.form["storypart"]
         if dbaccess.add_contribution(title, contributor, text):
