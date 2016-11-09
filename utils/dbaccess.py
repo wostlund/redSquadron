@@ -105,7 +105,6 @@ def show_joined(user):
         info = {} 
         row = curs.execute("SELECT title, body, story.uid, contributors, name from story, user where story.uid = user.uid")
         for i in row: 
-            print str(i[0])+ " " +  str(i[1]) + " " +str(i[2]) + " " + str(i[3]) + " " + str(i[4])
             contributors = i[3].split(",")
             exist = False
             for q in contributors:
@@ -161,14 +160,17 @@ def add_contribution(title, contributor, text):
             "VALUES ('{p_sid}', '{p_uid}', '{p_update}', '{p_date}')".format(
                 p_sid=sid, p_uid=uid, p_update=text, p_date=time.strftime("%c")))
         # update story table
-        new_contributors = ','.join(contributors.append(uid))
+        contributors.append(uid)
+        new_contributors = ','.join([str(i) for i in contributors])
         curs.execute(
             "UPDATE story SET contributors='{p_contributors}' WHERE sid='{p_sid}'".format(
                 p_contributors=new_contributors, p_sid=sid))
-
         #update story body
-        story_body = curs.execute("SELECT body from story where title={p_title}'".format(p_title=title))
-        new_body = story_body + " " + new_body
+        story_body = curs.execute("SELECT body from story where title='{p_title}'".format(p_title=title))
+        current = ""
+        for stuff in story_body:
+            current = stuff[0]
+        new_body = current + " " + text
         curs.execute(
             "UPDATE story SET body='{p_body}' WHERE sid='{p_sid}'".format(
                 p_body=new_body, p_sid=sid))        

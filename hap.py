@@ -133,10 +133,8 @@ def add_contribution_redirect():
 @app.route("/story", methods = ["POST"])
 def display():
     if 'username' in session: #check if user can actually use settings
-        print request.form
         story = request.form["name"]
-        print story
-        print dbaccess.get_storytext(story)
+        print request.form["name"]
         return render_template('seenStory.html',storyText =dbaccess.get_storytext(story), Title = story  ) #add more arguments from Lorenz's db util files
     else:
         return "Not logged in. Error" #possible change this for redirect to login

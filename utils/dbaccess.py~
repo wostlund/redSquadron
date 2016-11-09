@@ -144,12 +144,14 @@ def add_contribution(title, contributor, text):
         sid = ""
         contributors = []
         if row:
-            sid = row[0]["sid"]
-            contributors = row[0]["contributors"].split(",")
-        row = curs.execute("SELECT uid from user where username='{p_username}'".format(p_username=contributor))
+            for i in row:
+                sid = i[0]
+                contributors = i[1].split(",")
+        row = curs.execute("SELECT uid from user where name='{p_username}'".format(p_username=contributor))
         uid = ""
         if row:
-            uid = row[0]["uid"]
+            for i in row:
+                uid = i[0]
         if uid in contributors:
             #means this person has already contributed
             return False
@@ -157,7 +159,7 @@ def add_contribution(title, contributor, text):
         curs.execute(
             "INSERT INTO contribution(sid, uid, story_update, date_added) "
             "VALUES ('{p_sid}', '{p_uid}', '{p_update}', '{p_date}')".format(
-                p_sid=sid, p_uid=uid, p_update=story_update, p_date=time.strftime("%c")))
+                p_sid=sid, p_uid=uid, p_update=text, p_date=time.strftime("%c")))
         # update story table
         new_contributors = ','.join(contributors.append(uid))
         curs.execute(
@@ -177,6 +179,7 @@ def get_storytext(title):
         curs = conn.cursor()
         row1 = curs.execute("SELECT body from story where title='{p_title}'".format(p_title=title))
         for i in row1:
+            print i[0]
             return i[0]
 
 def get_storyauth(title):
