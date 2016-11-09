@@ -232,7 +232,7 @@ def idtoname(id):
         curs = conn.cursor()
         row1 = curs.execute("SELECT title from story where sid='{psid}'".format(psid=id))
         for i in row1:
-            return i1[0]
+            return i[0]
 
 
 def last_contribution(title):
