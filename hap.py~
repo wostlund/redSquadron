@@ -97,14 +97,6 @@ def addstory():
 #    else:
 #        return "Not logged in. Error" #possible change this for redirect to login
 
-@app.route('/addContributionbleh', methods = ["POST"]) #in between -M
-def incContributionbetween():
-    if 'username' in session: #check if user can actually use settings
-        title = request.form["name"]
-        return render_template('story.html', storyText = dbaccess.last_contribution(title)) #add more arguments from Lorenz's db util files
-    else:
-        return "Not logged in. Error" #possible change this for redirect to login
-
 @app.route('/addContributions', methods = ["POST"]) #in between -M
 def incContributions():
     if 'username' in session: #check if user can actually use settings
@@ -123,7 +115,7 @@ def add_contribution_redirect():
         contributor = session["username"]
         text = request.form["storypart"]
         if dbaccess.add_contribution(title, contributor, text):
-            return render_template('story.html',message="Success! Contributed to story.")
+            return redirect(url_for('welcome'))
         else:
             #this person has already contributed, not allowed to contribute to story
             return render_template('story.html',message="Unable to contribute. You have already contributed to this story!")
@@ -133,10 +125,8 @@ def add_contribution_redirect():
 @app.route("/story", methods = ["POST"])
 def display():
     if 'username' in session: #check if user can actually use settings
-        print request.form
         story = request.form["name"]
-        print story
-        print dbaccess.get_storytext(story)
+        print request.form["name"]
         return render_template('seenStory.html',storyText =dbaccess.get_storytext(story), Title = story  ) #add more arguments from Lorenz's db util files
     else:
         return "Not logged in. Error" #possible change this for redirect to login

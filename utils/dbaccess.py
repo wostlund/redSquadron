@@ -117,6 +117,25 @@ def show_joined(user):
                 info[i][2] = i[1] #body
         return info 
 
+def mine(user,title):
+    id = "" #current user id
+    with sqlite3.connect('data.db') as conn: 
+        curs = conn.cursor()
+        row = curs.execute("SELECT uid from user where name = '{p_name}'".format(p_name = user))
+        for i in row:
+            id = i[0]       
+    with sqlite3.connect('data.db') as conn: 
+        curs = conn.cursor() 
+        info = {} 
+        row = curs.execute("SELECT title, body, story.uid, contributors, name from story, user where story.uid = user.uid and title = " + "'" + title + "'")
+        for i in row: 
+            contributors = i[3].split(",")
+            exist = False
+            for q in contributors:
+                if str(q) == str(id):
+                    exist = True
+            return exist
+        return False
 
 def add_story(title, body, contributor):
     # 1. Get the uid of the contributor
