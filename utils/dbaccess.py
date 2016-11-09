@@ -90,7 +90,7 @@ def show_unjoined(user):
                 info[i][0] = i[0] #title
                 info[i][1] = i[4] #name of uid 
                 info[i][2] = i[1] #body
-                info[i][3] = i[2]
+                info[i][3] = i[5]
         return info 
         
 def show_joined(user): 
@@ -103,7 +103,7 @@ def show_joined(user):
     with sqlite3.connect('data.db') as conn: 
         curs = conn.cursor() 
         info = {} 
-        row = curs.execute("SELECT title, body, story.uid, contributors, name from story, user where story.uid = user.uid")
+        row = curs.execute("SELECT title, body, story.uid, contributors, name, sid from story, user where story.uid = user.uid")
         for i in row: 
             contributors = i[3].split(",")
             exist = False
@@ -115,7 +115,7 @@ def show_joined(user):
                 info[i][0] = i[0] #title
                 info[i][1] = i[4] #name of uid 
                 info[i][2] = i[1] #body
-                info[i][3] = i[2]
+                info[i][3] = i[5]
         return info 
 
 def mine(user,title):
@@ -127,17 +127,13 @@ def mine(user,title):
             id = i[0]       
     with sqlite3.connect('data.db') as conn: 
         curs = conn.cursor() 
-        print title+"|"
         row = curs.execute("SELECT title, story.uid, contributors from story,contribution where title = '{p_title}'".format(p_title = title))
         for i in row: 
             contributors = i[2].split(",")
             exist = False
             for q in contributors:
                 if str(q) == str(id):
-                    print q
-                    print id
                     exist = True
-            print exist
             return exist
         return False
 
@@ -204,7 +200,6 @@ def get_storytext(title):
         curs = conn.cursor()
         row1 = curs.execute("SELECT body from story where title='{p_title}'".format(p_title=title))
         for i in row1:
-            print i[0]
             return i[0]
 
 def get_storyauth(title):
