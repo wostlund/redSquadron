@@ -171,3 +171,7 @@ body {
     font-weight: bold;
 }
 
+#texbox{
+    height: 40%;
+    width: 100%;
+}

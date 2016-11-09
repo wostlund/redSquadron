@@ -11,9 +11,10 @@
 	<p> {{message}} </p>
             <form action = "/addstory" name = "add" method = "POST">
                 Title: <input type ="text" name="title"><br>
-                Add the following to the story:<input type ="text" name="storypart"> 
-
-                <button type = "submit" name = "id" id = "button" value={{Title}}>Add Text</button>
+                <c><textarea name="storypart" maxlength="200" rows="5" cols="32" placeholder="Feel free to add text here" id="textbox"></textarea>
+                </c>
+                <br>
+                <button style="margin-left: 3%;" type = "submit" name = "id" id = "button" value={{Title}}>Add Text</button>
             </form>
         <form action="/home" method="POST" id="holder2" name="add">
                 <button type="submit" id="button2" name="story" value={{username}}>

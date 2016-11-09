@@ -14,8 +14,10 @@
                 {{title}}
                 {{storyText}}
                 <input type="hidden" name="name" value="{{Title}}">
-                Add the following to the story:<input type ="text" name="storypart"> 
-                <button type = "submit" name = "id" id = "button" value="{{Title}}">Add Text</button>
+                <textarea name="storypart" maxlength="200" rows="5" cols="32" placeholder="Feel free to add text here" id="textbox"></textarea>
+                <br>
+                <button type = "submit" name = "id" style="margin-left: 3%;" id = "button" value="{{Title}}">Add Text</button>
+                <br>
             </form>
         <form action="/home" method="POST" id="holder2" name="add">
                 <button type="submit" id="button2" name="story" value={{username}}>
