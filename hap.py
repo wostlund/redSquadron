@@ -111,7 +111,7 @@ def add_contribution_redirect():
     if 'username' in session:
         #I want the form to give us story title, contributer, and text of contribution
         print request.form
-        title = dbaccess.idtoname(request.form["name"])
+        title = request.form["name"]
         contributor = session["username"]
         text = request.form["storypart"]
         if dbaccess.add_contribution(title, contributor, text):

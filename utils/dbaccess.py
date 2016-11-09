@@ -78,7 +78,7 @@ def show_unjoined(user):
     with sqlite3.connect('data.db') as conn: 
         curs = conn.cursor() 
         info = {}         
-        row = curs.execute("SELECT title, body, story.uid, contributors, name from story, user where story.uid = user.uid")
+        row = curs.execute("SELECT title, body, story.uid, contributors, name, sid from story, user where story.uid = user.uid")
         for i in row: 
             contributors = i[3].split(",")
             exist = False
