@@ -10,6 +10,7 @@
             {{storyText}}
         </p>
 	<p> {{message}} </p>
+        {{% if mine %}}
             <form action = "/addContribution" name = "add" method = "POST">
                 <input type="hidden" name="name" value="{{Title}}">
                 <textarea name="storypart" maxlength="200" rows="5" cols="32" placeholder="Feel free to add text here" id="textbox"></textarea>
@@ -17,6 +18,7 @@
                 <button type = "submit" name = "id" style="margin-left: 3%;" id = "button" value="{{Title}}">Add Text</button>
                 <br>
             </form>
+        {{% endif %}}
         <form action="/home" method="POST" id="holder2" name="add">
                 <button type="submit" id="button2" name="story" value={{username}}>
                     Home  
