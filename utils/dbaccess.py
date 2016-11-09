@@ -141,12 +141,6 @@ def add_story(title, body, contributor):
     # 1. Get the uid of the contributor
     with sqlite3.connect('data.db') as conn:
         curs = conn.cursor()
-        curs.execute(
-            "INSERT INTO contribution(sid, uid, story_update, date_added) "
-            "VALUES (SELECT MAX(sid) from story, '{p_uid}', '{p_update}', '{p_date}')".format(
-                p_uid=usernametoid(contributor), p_update=body, p_date=time.strftime("%c")))
-    with sqlite3.connect('data.db') as conn:
-        curs = conn.cursor()
         row = curs.execute("SELECT uid from user where name='{p_name}'".format(p_name=contributor))
         story_creator = ""
         contributors = ""
