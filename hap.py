@@ -101,7 +101,6 @@ def addstory():
 def incContributions():
     if 'username' in session: #check if user can actually use settings
         title = request.form["name"]
-        print title
         return render_template('seenStory.html', storyText = dbaccess.last_contribution(title), Title=title, mine = dbaccess.mine(session['username'],title)) #add more arguments from Lorenz's db util files
     else:
         return "Not logged in. Error" #possible change this for redirect to login
@@ -128,7 +127,7 @@ def display():
     if 'username' in session: #check if user can actually use settings
         story = request.form["name"]
         print request.form["name"]
-        return render_template('seenStory.html',storyText =dbaccess.get_storytext(story), Title = story  ) #add more arguments from Lorenz's db util files
+        return render_template('seenStory.html',storyText =dbaccess.get_storytext(story), Title = story, mine = dbaccess.mine(session['username'],story)  ) #add more arguments from Lorenz's db util files
     else:
         return "Not logged in. Error" #possible change this for redirect to login
 
