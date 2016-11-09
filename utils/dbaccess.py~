@@ -117,7 +117,7 @@ def show_joined(user):
                 info[i][2] = i[1] #body
         return info 
 
-def mine(id,title):
+def mine(user,title):
     id = "" #current user id
     with sqlite3.connect('data.db') as conn: 
         curs = conn.cursor()

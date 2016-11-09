@@ -126,10 +126,9 @@ def mine(user,title):
             id = i[0]       
     with sqlite3.connect('data.db') as conn: 
         curs = conn.cursor() 
-        info = {} 
-        row = curs.execute("SELECT title, body, story.uid, contributors, name from story, user where story.uid = user.uid and title = " + "'" + title + "'")
+        row = curs.execute("SELECT title, story.uid, contributors from story,contribution where title = '{p_title}'".format(p_title = title))
         for i in row: 
-            contributors = i[3].split(",")
+            contributors = i[2].split(",")
             exist = False
             for q in contributors:
                 if str(q) == str(id):
