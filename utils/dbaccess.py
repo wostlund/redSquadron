@@ -75,11 +75,10 @@ def show_unjoined(user):
         row = curs.execute("SELECT uid from user where name = '{p_name}'".format(p_name = user))
         for i in row:
             id = i[0]           
-
     with sqlite3.connect('data.db') as conn: 
         curs = conn.cursor() 
         info = {}         
-        row = curs.execute("SELECT title, body, story.uid, contributors, name from story, user where story.uid = user.uid")
+        row = curs.execute("SELECT title, body, story.uid, contributors, name, sid from story, user where story.uid = user.uid")
         for i in row: 
             contributors = i[3].split(",")
             exist = False
@@ -87,10 +86,11 @@ def show_unjoined(user):
                 if str(q) == str(id):
                     exist = True
             if not exist:
-                info[i] = ["","",""] 
+                info[i] = ["","","",""] 
                 info[i][0] = i[0] #title
                 info[i][1] = i[4] #name of uid 
                 info[i][2] = i[1] #body
+                info[i][3] = i[5]
         return info 
         
 def show_joined(user): 
@@ -103,24 +103,48 @@ def show_joined(user):
     with sqlite3.connect('data.db') as conn: 
         curs = conn.cursor() 
         info = {} 
-        row = curs.execute("SELECT title, body, story.uid, contributors, name from story, user where story.uid = user.uid")
+        row = curs.execute("SELECT title, body, story.uid, contributors, name, sid from story, user where story.uid = user.uid")
         for i in row: 
-            print str(i[0])+ " " +  str(i[1]) + " " +str(i[2]) + " " + str(i[3]) + " " + str(i[4])
             contributors = i[3].split(",")
             exist = False
             for q in contributors:
                 if str(q) == str(id):
                     exist = True
             if exist:
-                info[i] = ["","",""] 
+                info[i] = ["","","",""] 
                 info[i][0] = i[0] #title
                 info[i][1] = i[4] #name of uid 
                 info[i][2] = i[1] #body
+                info[i][3] = i[5]
         return info 
 
+def mine(user,title):
+    id = "" #current user id
+    with sqlite3.connect('data.db') as conn: 
+        curs = conn.cursor()
+        row = curs.execute("SELECT uid from user where name = '{p_name}'".format(p_name = user))
+        for i in row:
+            id = i[0]       
+    with sqlite3.connect('data.db') as conn: 
+        curs = conn.cursor() 
+        row = curs.execute("SELECT title, story.uid, contributors from story,contribution where title = '{p_title}'".format(p_title = title))
+        for i in row: 
+            contributors = i[2].split(",")
+            exist = False
+            for q in contributors:
+                if str(q) == str(id):
+                    exist = True
+            return exist
+        return False
 
 def add_story(title, body, contributor):
     # 1. Get the uid of the contributor
+    with sqlite3.connect('data.db') as conn:
+        curs = conn.cursor()
+        curs.execute(
+            "INSERT INTO contribution(sid, uid, story_update, date_added) "
+            "VALUES (SELECT MAX(sid) from story, '{p_uid}', '{p_update}', '{p_date}')".format(
+                p_uid=usernametoid(contributor), p_update=body, p_date=time.strftime("%c")))
     with sqlite3.connect('data.db') as conn:
         curs = conn.cursor()
         row = curs.execute("SELECT uid from user where name='{p_name}'".format(p_name=contributor))
@@ -144,12 +168,14 @@ def add_contribution(title, contributor, text):
         sid = ""
         contributors = []
         if row:
-            sid = row[0]["sid"]
-            contributors = row[0]["contributors"].split(",")
-        row = curs.execute("SELECT uid from user where username='{p_username}'".format(p_username=contributor))
+            for i in row:
+                sid = i[0]
+                contributors = i[1].split(",")
+        row = curs.execute("SELECT uid from user where name='{p_username}'".format(p_username=contributor))
         uid = ""
         if row:
-            uid = row[0]["uid"]
+            for i in row:
+                uid = i[0]
         if uid in contributors:
             #means this person has already contributed
             return False
@@ -157,16 +183,19 @@ def add_contribution(title, contributor, text):
         curs.execute(
             "INSERT INTO contribution(sid, uid, story_update, date_added) "
             "VALUES ('{p_sid}', '{p_uid}', '{p_update}', '{p_date}')".format(
-                p_sid=sid, p_uid=uid, p_update=story_update, p_date=time.strftime("%c")))
+                p_sid=sid, p_uid=uid, p_update=text, p_date=time.strftime("%c")))
         # update story table
-        new_contributors = ','.join(contributors.append(uid))
+        contributors.append(uid)
+        new_contributors = ','.join([str(i) for i in contributors])
         curs.execute(
             "UPDATE story SET contributors='{p_contributors}' WHERE sid='{p_sid}'".format(
                 p_contributors=new_contributors, p_sid=sid))
-
         #update story body
-        story_body = curs.execute("SELECT body from story where title={p_title}'".format(p_title=title))
-        new_body = story_body + " " + new_body
+        story_body = curs.execute("SELECT body from story where title='{p_title}'".format(p_title=title))
+        current = ""
+        for stuff in story_body:
+            current = stuff[0]
+        new_body = current + " " + text
         curs.execute(
             "UPDATE story SET body='{p_body}' WHERE sid='{p_sid}'".format(
                 p_body=new_body, p_sid=sid))        
@@ -192,6 +221,26 @@ def get_storyauth(title):
         for i in row1:
             return i[0]
 
+def usernametoid(name):
+    with sqlite3.connect('data.db') as conn:
+        curs = conn.cursor()
+        row1 = curs.execute("SELECT uid from user where name='{p_name}'".format(p_name=name))
+        for i in row1:
+            return i[0]
+
+def nametoid(name):
+    with sqlite3.connect('data.db') as conn:
+        curs = conn.cursor()
+        row1 = curs.execute("SELECT sid from story where title='{p_title}'".format(p_title=title))
+        for i in row1:
+            return i[0]
+
+def idtoname(id):
+    with sqlite3.connect('data.db') as conn:
+        curs = conn.cursor()
+        row1 = curs.execute("SELECT title from story where sid='{psid}'".format(psid=id))
+        for i in row1:
+            return i[0]
 
 
 def last_contribution(title):
@@ -199,13 +248,18 @@ def last_contribution(title):
         curs = conn.cursor()
         row1 = curs.execute("SELECT sid from story where title='{p_title}'".format(p_title=title))
         sid = ""
-        if row1:
-            sid = row1[0]["sid"]
-        row2 = curs.execute("SELECT story_update from contribution where cid=(SELECT max(cid) from contribution) GROUP BY sid='{p_sid}'".format(p_sid=sid))
+        for i in row1:
+            sid = i[0]
+        print sid
         last = ""
-        if row2:
-            last = row2[0]["story_update"]
+        row2 = curs.execute("SELECT story_update from contribution where cid=(SELECT max(cid) from contribution where sid='{p_sid}')".format(p_sid=sid))
+        for q in row2:
+            print q
+            last = q[0]
+        print last
         return last
+
+
 
 
 
