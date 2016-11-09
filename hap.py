@@ -125,7 +125,7 @@ def add_contribution_redirect():
 @app.route("/story", methods = ["POST"])
 def display():
     if 'username' in session: #check if user can actually use settings
-        story = request.form["name"]
+        story = dbaccess.idtoname(request.form["name"])
         print request.form["name"]
         return render_template('seenStory.html',storyText =dbaccess.get_storytext(story), Title = story, mine = dbaccess.mine(session['username'],story)  ) #add more arguments from Lorenz's db util files
     else:
