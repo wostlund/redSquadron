@@ -167,7 +167,6 @@ def add_story(title, body, contributor):
 
 def add_contribution(title, contributor, text):
     title = quotechecker(title)
-    text = quotechecker(text)
     with sqlite3.connect('data.db') as conn:
         curs = conn.cursor()
         row = curs.execute("SELECT sid, contributors from story where title='{p_title}'".format(p_title=title))
@@ -189,7 +188,7 @@ def add_contribution(title, contributor, text):
         curs.execute(
             "INSERT INTO contribution(sid, uid, story_update, date_added) "
             "VALUES ('{p_sid}', '{p_uid}', '{p_update}', '{p_date}')".format(
-                p_sid=sid, p_uid=uid, p_update=text, p_date=time.strftime("%c")))
+                p_sid=sid, p_uid=uid, p_update=quotechecker(text), p_date=time.strftime("%c")))
         # update story table
         contributors.append(uid)
         new_contributors = ','.join([str(i) for i in contributors])
@@ -204,7 +203,7 @@ def add_contribution(title, contributor, text):
         new_body = current + " " + text
         curs.execute(
             "UPDATE story SET body='{p_body}' WHERE sid='{p_sid}'".format(
-                p_body=new_body, p_sid=sid))        
+                p_body=quotechecker(new_body), p_sid=sid))        
         return True
 
 def get_storytext(title):
