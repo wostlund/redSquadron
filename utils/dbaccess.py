@@ -13,7 +13,7 @@ def check_reg(username, password):
         return "Success"
 
 def valid_username(username):
-    if not username or len(username) < 1 or username.isspace():
+    if not username or len(username) < 1 or username.isspace() or "'" in username:
         return False
     else:
         return True
@@ -40,7 +40,7 @@ def check_log(username, password):
         user = curs.execute(
             "SELECT name,password from user where name = '{p_name}'".format(
                 p_name=username))
-        if not username or len(username) < 1 or username.isspace():
+        if not valid_username(username):
             return "Bad Login"
         if not user:
             return "Bad Login"
@@ -120,6 +120,7 @@ def show_joined(user):
 
 def mine(user,title):
     id = "" #current user id
+    title = quotechecker(title)
     with sqlite3.connect('data.db') as conn: 
         curs = conn.cursor()
         row = curs.execute("SELECT uid from user where name = '{p_name}'".format(p_name = user))
@@ -139,6 +140,8 @@ def mine(user,title):
 
 def add_story(title, body, contributor):
     # 1. Get the uid of the contributor
+    title = quotechecker(title)
+    body = quotechecker(body)
     with sqlite3.connect('data.db') as conn:
         curs = conn.cursor()
         row = curs.execute("SELECT uid from user where name='{p_name}'".format(p_name=contributor))
@@ -163,6 +166,8 @@ def add_story(title, body, contributor):
 
 
 def add_contribution(title, contributor, text):
+    title = quotechecker(title)
+    text = quotechecker(text)
     with sqlite3.connect('data.db') as conn:
         curs = conn.cursor()
         row = curs.execute("SELECT sid, contributors from story where title='{p_title}'".format(p_title=title))
@@ -203,6 +208,7 @@ def add_contribution(title, contributor, text):
         return True
 
 def get_storytext(title):
+    title = quotechecker(title)
     with sqlite3.connect('data.db') as conn:
         curs = conn.cursor()
         row1 = curs.execute("SELECT body from story where title='{p_title}'".format(p_title=title))
@@ -211,6 +217,7 @@ def get_storytext(title):
 
 def get_storyauth(title):
     authid = ""
+    title = quotechecker(title)
     with sqlite3.connect('data.db') as conn:
         curs = conn.cursor()
         row1 = curs.execute("SELECT uid from story where title='{p_title}'".format(p_title=title))
@@ -230,9 +237,10 @@ def usernametoid(name):
             return i[0]
 
 def nametoid(name):
+    name = quotechecker(name)
     with sqlite3.connect('data.db') as conn:
         curs = conn.cursor()
-        row1 = curs.execute("SELECT sid from story where title='{p_title}'".format(p_title=title))
+        row1 = curs.execute("SELECT sid from story where title='{p_title}'".format(p_title=name))
         for i in row1:
             return i[0]
 
@@ -245,6 +253,7 @@ def idtoname(id):
 
 
 def last_contribution(title):
+    title = quotechecker(title)
     with sqlite3.connect('data.db') as conn:
         curs = conn.cursor()
         row1 = curs.execute("SELECT sid from story where title='{p_title}'".format(p_title=title))
@@ -260,7 +269,8 @@ def last_contribution(title):
         print last
         return last
 
-
+def quotechecker(string):
+    return string.replace("'","''")
 
 
 
