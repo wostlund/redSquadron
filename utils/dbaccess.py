@@ -148,11 +148,18 @@ def add_story(title, body, contributor):
             for i in row:
                 story_creator = i[0]
                 contributors = story_creator
-        # 2. Check if story exists.  Story exists if title exists
+        # 2. Update story
         curs.execute(
             "INSERT INTO story (title, body, uid, contributors) "
             "VALUES ('{p_title}', '{p_body}', '{p_uid}', '{p_contributors}')".format(
                 p_title=title, p_body=body, p_uid=story_creator, p_contributors=contributors))
+        # 3. Get the last inserted row id
+        sid = curs.lastrowid
+        # 4. Update contribution
+        curs.execute(
+            "INSERT INTO contribution(sid, uid, story_update, date_added) "
+            "VALUES ('{p_sid}', '{p_uid}', '{p_update}', '{p_date}')".format(
+                p_sid=sid, p_uid=contributor, p_update=body, p_date=time.strftime("%c")))
 
 
 def add_contribution(title, contributor, text):
